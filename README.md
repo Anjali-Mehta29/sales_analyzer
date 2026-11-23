@@ -199,7 +199,7 @@ Make sure the retail sales CSV file is available in the project directory or not
 Open the terminal in the project directory and execute:
 
 ```bash
-python main.py
+python retail_analyzer.py
 ```
 
 ### Step 6: Analyze Retail Sales Data
@@ -216,8 +216,8 @@ python main.py
 
 ```text
 │
-├── main.py
-├── RetailSales.csv
+├── retail_analyzer.py
+├── retail_sales.csv
 └── README.md
 ```
 
