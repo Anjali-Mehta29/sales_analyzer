@@ -11,17 +11,19 @@ This project is a beginner-friendly Python program that provides an interactive,
 The program allows the user to select from the following options:
 
 * Load retail sales data from a CSV file.
-* Explore the dataset using `head()`, `columns`, and other Pandas operations.
+* Explore the dataset using `head()` and other Pandas operations.
 * Convert the `Date` column from text to date format.
-* Handle missing values in Product, Category, Price, Quantity Sold, and Total Sales columns.
-* Calculate total sales and average sales.
+* Calculate daily sales growth using `pct_change()`.
+* Calculate total sales using NumPy.
+* Calculate average sales using NumPy.
 * Identify the most popular product based on the total quantity sold.
 * Display product-wise sales.
 * Filter sales data by category.
-* Filter sales data using a start date and end date.
+* Filter sales data using a start date.
+* Filter sales data using an end date.
+* Display filtered records and calculate filtered total sales.
 * Display total sales by category and product.
 * Display daily sales summaries.
-* Calculate daily sales growth using `pct_change()`.
 * Generate a bar chart to compare total sales by category.
 * Generate a line chart to visualize sales trends over time.
 * Generate a correlation heatmap to analyze relationships between numerical sales columns.
@@ -30,38 +32,38 @@ The program allows the user to select from the following options:
 
 The program is organized using a `RetailAnalyzer` class. The class encapsulates the data loading, filtering, analysis, and visualization functionalities.
 
-The project uses Pandas to load, clean, filter, and analyze retail sales data. NumPy is used for mathematical calculations. Matplotlib and Seaborn are used to create data visualizations.
+The project uses Pandas to load, process, filter, and analyze retail sales data. NumPy is used for mathematical calculations. Matplotlib and Seaborn are used to create data visualizations.
+
+The program calculates daily sales growth by grouping sales according to Date and applying `pct_change()`. The calculated Sales Growth column is added to the DataFrame during dataset loading.
 
 The program handles exceptions during file loading, filtering, calculations, and visualization to manage invalid input and operation errors.
 
-The program follows a structured workflow from dataset loading and cleaning to sales analysis, filtering, summary generation, and visualization.
+The program follows a structured workflow from dataset loading and processing to sales analysis, filtering, summary generation, and visualization.
 
 ## Features
 
 * Displays a menu-driven interface for retail sales analysis.
 * Loads retail sales data from a CSV file.
-* Checks the CSV file extension before loading.
-* Checks whether the required dataset columns are available.
-* Explores datasets using Pandas functions.
 * Converts the `Date` column into datetime format.
-* Handles missing Product and Category values using `fillna()`.
-* Handles missing Price and Quantity Sold values by replacing them with zero.
-* Calculates missing Total Sales using Price multiplied by Quantity Sold.
+* Calculates daily sales using `groupby()`.
 * Calculates daily sales growth using `pct_change()`.
+* Adds a calculated Sales Growth column to the DataFrame.
 * Calculates total sales using NumPy.
 * Calculates average sales using NumPy.
 * Identifies the most popular product based on quantity sold.
 * Displays product-wise sales.
 * Filters sales records by category.
-* Filters sales records using start and end dates.
+* Filters sales records using a start date.
+* Filters sales records using an end date.
 * Displays filtered datasets and filtered total sales.
+* Allows multiple filters to be applied successively.
 * Displays total sales by category.
 * Displays total sales by product.
 * Displays daily sales summaries.
 * Generates bar charts to compare sales by category.
 * Generates line charts to visualize sales trends over time.
 * Generates correlation heatmaps to analyze relationships between Price, Quantity Sold, and Total Sales.
-* Customizes charts using titles, labels, and axis rotation.
+* Customizes charts using titles, labels, markers, and axis rotation.
 * Uses exception handling to manage file-related and operation errors.
 * Uses class methods to organize different operations.
 * Uses loops and conditional statements to manage menu selections.
@@ -80,21 +82,22 @@ The program follows a structured workflow from dataset loading and cleaning to s
 * Seaborn library.
 * DataFrames and Series.
 * Reading CSV files using `pd.read_csv()`.
-* Exploring datasets using `head()`, `columns`, and `copy()`.
+* Exploring datasets using `head()`.
 * Date conversion using `pd.to_datetime()`.
-* Handling missing values using `fillna()`.
 * Grouping data using `groupby()`.
 * Mathematical calculations using NumPy.
 * Aggregation using `sum()` and `mean()`.
 * Finding the most popular product using `idxmax()`.
 * Calculating percentage changes using `pct_change()`.
+* Mapping values using `map()`.
 * Data filtering using conditional expressions.
+* Filtering dates using comparison operators.
 * Data visualization using Matplotlib and Seaborn.
 * Creating bar charts using `barplot()`.
 * Creating line charts using `lineplot()`.
 * Creating correlation heatmaps using `heatmap()`.
 * Calculating correlations using `corr()`.
-* Plot customization using titles, labels, and axis rotation.
+* Plot customization using titles, labels, markers, and axis rotation.
 * Exception handling using `try` and `except`.
 * Conditional statements using `if`, `elif`, and `else`.
 * `while` loops.
@@ -105,24 +108,18 @@ The program follows a structured workflow from dataset loading and cleaning to s
 
 * `print()`
 * `input()`
-* `len()`
-* `sum()`
+* `int()`
 * `round()`
-* `lower()`
-* `endswith()`
-* `read_csv()`
-* `head()`
+* `sum()`
 * `copy()`
-* `columns`
+* `read_csv()`
 * `to_datetime()`
-* `fillna()`
 * `groupby()`
 * `sum()`
 * `mean()`
 * `pct_change()`
+* `fillna()`
 * `map()`
-* `unique()`
-* `reset_index()`
 * `idxmax()`
 * `empty`
 * `corr()`
@@ -137,6 +134,7 @@ The program follows a structured workflow from dataset loading and cleaning to s
 * `tight_layout()`
 * `show()`
 * `break`
+* `continue`
 
 ## Technology Used
 
@@ -154,21 +152,24 @@ The program follows a structured workflow from dataset loading and cleaning to s
 
 The retail sales dataset contains information about retail transactions, including product details, categories, dates, prices, quantities sold, and total sales.
 
+The dataset contains the following 6 columns:
+
 | Column | Meaning |
 |---|---|
-| OrderID | Unique identification number of the order |
 | Date | Date of the transaction |
 | Product | Name of the product |
 | Category | Category of the product |
-| Quantity Sold | Number of units sold |
 | Price | Price of the product |
+| Quantity Sold | Number of units sold |
 | Total Sales | Total sales amount for the transaction |
-| Region | Geographical region of the sale |
-| PaymentMethod | Method used to complete the payment |
 
 The dataset is used to analyze product performance, category-wise sales, daily sales trends, and relationships between numerical sales variables.
 
-Missing values in the Product and Category columns are replaced with "Unknown". Missing numerical values are handled by replacing them with zero, and missing Total Sales values are calculated using Price multiplied by Quantity Sold.
+* Calculated Column:
+
+The program calculates an additional `Sales Growth` column during dataset loading. It calculates daily sales growth by grouping Total Sales according to Date and applying `pct_change()`.
+
+The Sales Growth column is generated by the program and is not included in the original CSV dataset.
 
 ## How to Run
 
@@ -176,7 +177,7 @@ Missing values in the Product and Category columns are replaced with "Unknown". 
 
 Download and install Python from the official website:
 
-https://www.python.org/downloads/
+[https://www.python.org/downloads/](https://www.python.org/downloads/)
 
 ### Step 2: Install Required Libraries
 
@@ -205,9 +206,10 @@ python retail_analyzer.py
 ### Step 6: Analyze Retail Sales Data
 
 * Select the desired operation from the main menu.
-* Load the retail sales dataset.
+* Load the retail sales dataset by providing its CSV file path.
 * Calculate sales metrics and identify popular products.
-* Filter sales records by category and date.
+* Filter sales records by category, start date, and end date.
+* Display filtered records and their total sales.
 * Display category-wise, product-wise, and daily sales summaries.
 * Generate visualizations to understand sales patterns and trends.
 * Return to the main menu or exit the program.
@@ -227,13 +229,14 @@ By completing this project, you can learn:
 
 * How to load and analyze CSV datasets using Pandas.
 * How to explore datasets using Pandas DataFrame methods.
-* How to identify and handle missing values.
 * How to convert text columns into date format.
-* How to group data and calculate category-wise and product-wise sales.
+* How to group data and calculate daily sales.
+* How to calculate daily sales growth using `pct_change()`.
 * How to calculate total sales and average sales using NumPy.
 * How to identify the most popular product.
+* How to calculate category-wise and product-wise sales.
 * How to filter records using multiple conditions.
-* How to calculate daily sales growth.
+* How to filter records using category and date conditions.
 * How to create bar charts, line charts, and correlation heatmaps.
 * How to customize visualizations using Matplotlib and Seaborn.
 * How to use classes and methods to organize a Python program.
